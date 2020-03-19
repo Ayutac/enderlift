@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "OWO",
+        "WEW",
+        "OWO"
+    ],
+    "key": {
+        "O": {
+            "item": "minecraft:obsidian"
+        },
+        "W": {
+            "tag": "minecraft:wool"
+        },
+        "E": {
+            "item": "minecraft:ender_eye"
+        }
+    },
+    "result": {
+        "item": "enderlift:enderlift",
+        "count": 1
+    }
+}
