@@ -4,5 +4,6 @@
     "category.enderlift.general": "General",
     "option.enderlift.range": "Range",
     "option.enderlift.xpCost": "XP Cost",
-    "option.enderlift.damage": "Damage"
+    "option.enderlift.damage": "Damage",
+    "option.enderlift.redstoneType": "redstoneType"
 }

@@ -30,32 +30,41 @@ public class BlockEnderlift extends Block {
         if (action == Action.JUMP || (action == Action.CROUCH && newState == true)) {
             BlockPos standingBlock = player.getBlockPos().down();
 
-            int direction = action == Action.JUMP ? 1 : -1;
-            BlockPos other = findOthers(world, standingBlock, Enderlift.config.range * direction);
+            if (world.getBlockState(standingBlock).getBlock() instanceof BlockEnderlift) {
+                int direction = action == Action.JUMP ? 1 : -1;
+                BlockPos other = findOthers(world, standingBlock, Enderlift.config.range * direction);
 
-            if (other != null) {
-                if (!world.isClient) {
-                    boolean allow = true;
+                if (other != null) {
+                    if (!world.isClient) {
+                        boolean allow = true;
 
-                    int xpCost = Enderlift.config.xpCost;
-                    if (xpCost != 0) {
-                        if (player.totalExperience >= xpCost) {
-                            allow = true;
-                            player.addExperience(-xpCost);
-                        } else {
-                            allow = false;
-                        }
-                    }
-
-
-                    if (allow) {
-                        int damage = Enderlift.config.damage;
-                        if (damage != 0) {
-                            player.damage(DamageSource.MAGIC, damage);
+                        int redstoneType = Enderlift.config.redstoneType;
+                        boolean on = world.isReceivingRedstonePower(standingBlock);
+                        if (redstoneType == 1) {
+                            allow = on;
+                        } else if (redstoneType == 2) {
+                            allow = !on;
                         }
 
-                        player.requestTeleport(player.getX(), other.getY() + 1, player.getZ());
-                        BlockEnderlift.playNoise(world, player);
+                        int xpCost = Enderlift.config.xpCost;
+                        if (allow && xpCost != 0) {
+                            if (player.totalExperience >= xpCost) {
+                                allow = true;
+                                player.addExperience(-xpCost);
+                            } else {
+                                allow = false;
+                            }
+                        }
+
+                        if (allow) {
+                            int damage = Enderlift.config.damage;
+                            if (damage != 0) {
+                                player.damage(DamageSource.MAGIC, damage);
+                            }
+
+                            player.requestTeleport(player.getX(), other.getY() + 1, player.getZ());
+                            BlockEnderlift.playNoise(world, player);
+                        }
                     }
                 }
             }

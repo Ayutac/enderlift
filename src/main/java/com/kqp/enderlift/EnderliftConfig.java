@@ -17,6 +17,7 @@ public class EnderliftConfig {
     public Integer range = 256;
     public Integer xpCost = 0;
     public Integer damage = 0;
+    public Integer redstoneType = 0;
 
     public static void save(EnderliftConfig cfg) {
         checkFileExistence();
