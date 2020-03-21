@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "enderlift",
-  "version": "${version}",
+  "version": "1.0.1",
 
   "name": "Enderlift",
   "description": "Adds a block similar to the OpenBlocks elevator",
@@ -12,12 +12,15 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/enderlift/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
       "com.kqp.enderlift.Enderlift"
+    ],
+    "modmenu": [
+      "com.kqp.enderlift.modmenu.EnderliftModMenu"
     ]
   },
   "mixins": [

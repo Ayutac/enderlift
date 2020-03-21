@@ -15,15 +15,19 @@ import net.minecraft.util.registry.Registry;
 public class Enderlift implements ModInitializer {
 	public static final Block ENDERLIFT = new BlockEnderlift();
 
+	public static EnderliftConfig config;
+
 	@Override
 	public void onInitialize() {
 		System.out.println("Initializing Enderlift");
+
+		config = EnderliftConfig.load();		
 
 		Registry.register(Registry.BLOCK, new Identifier("enderlift", "enderlift"), ENDERLIFT);
 		Registry.register(Registry.ITEM, new Identifier("enderlift", "enderlift"), new BlockItem(ENDERLIFT, new Item.Settings().group(ItemGroup.TRANSPORTATION)));
 
 		UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-			BlockPos other = BlockEnderlift.findOthers(world, hitResult.getBlockPos(), 256 * (player.isSneaking() ? -1 : 1));
+			BlockPos other = BlockEnderlift.findOthers(world, hitResult.getBlockPos(), config.range * (player.isSneaking() ? -1 : 1));
 
 			if (hitResult.getSide() == Direction.UP && other != null) {
 				if (player.getX() > other.getX() && player.getZ() > other.getZ() && player.getX() < other.getX() + 1 && player.getZ() < other.getZ() + 1) {
