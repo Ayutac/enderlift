@@ -3,7 +3,6 @@ package com.kqp.enderlift;
 import com.kqp.enderlift.event.playeraction.PlayerActionEvent;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.world.WorldTickCallback;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;

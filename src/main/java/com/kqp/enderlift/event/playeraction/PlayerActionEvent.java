@@ -10,9 +10,9 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 
 public class PlayerActionEvent {
-    private static final List<PlayerActionCallback> LISTENERS = new ArrayList();
+    private static final List<PlayerActionCallback> LISTENERS = new ArrayList<PlayerActionCallback>();
  
-    private static final Map<PlayerEntity, PlayerState> PLAYER_STATES = new HashMap();
+    private static final Map<PlayerEntity, PlayerState> PLAYER_STATES = new HashMap<PlayerEntity, PlayerState>();
 
     public static void onWorldTick(World world) {
         if (!world.isClient) {
