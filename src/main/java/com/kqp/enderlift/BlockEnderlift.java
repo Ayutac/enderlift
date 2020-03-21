@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -33,11 +34,30 @@ public class BlockEnderlift extends Block {
             BlockPos other = findOthers(world, standingBlock, Enderlift.config.range * direction);
 
             if (other != null) {
-                BlockEnderlift.playNoise(world, player);
-    
-                    if (!world.isClient) {
-                        player.requestTeleport(player.getX(), other.getY() + 1, player.getZ());
+                if (!world.isClient) {
+                    boolean allow = true;
+
+                    int xpCost = Enderlift.config.xpCost;
+                    if (xpCost != 0) {
+                        if (player.totalExperience >= xpCost) {
+                            allow = true;
+                            player.addExperience(-xpCost);
+                        } else {
+                            allow = false;
+                        }
                     }
+
+
+                    if (allow) {
+                        int damage = Enderlift.config.damage;
+                        if (damage != 0) {
+                            player.damage(DamageSource.MAGIC, damage);
+                        }
+
+                        player.requestTeleport(player.getX(), other.getY() + 1, player.getZ());
+                        BlockEnderlift.playNoise(world, player);
+                    }
+                }
             }
         }
     }

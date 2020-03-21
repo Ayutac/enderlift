@@ -1,4 +1,8 @@
 {
     "item.enderlift.enderlift": "Enderlift",
-    "block.enderlift.enderlift": "Enderlift"
+    "block.enderlift.enderlift": "Enderlift",
+    "category.enderlift.general": "General",
+    "option.enderlift.range": "Range",
+    "option.enderlift.xpCost": "XP Cost",
+    "option.enderlift.damage": "Damage"
 }

@@ -21,10 +21,22 @@ public class EnderliftModMenu implements ModMenuApi {
             EnderliftConfig temp = new EnderliftConfig();
 
             ConfigCategory general = builder.getOrCreateCategory("category.enderlift.general");
-            general.addEntry(builder.entryBuilder().startIntField("optional.enderlift.range", 256)
+            general.addEntry(builder.entryBuilder().startIntField("option.enderlift.range", 256)
                 .setDefaultValue(256)
                 .setTooltip("Range of the Enderlift")
                 .setSaveConsumer(newValue -> temp.range = newValue)
+                .build()
+            );
+            general.addEntry(builder.entryBuilder().startIntField("option.enderlift.xpCost", 0)
+                .setDefaultValue(0)
+                .setTooltip("Cost of using the Enderlift (0 to disable)")
+                .setSaveConsumer(newValue -> temp.xpCost = newValue)
+                .build()
+            );
+            general.addEntry(builder.entryBuilder().startIntField("option.enderlift.damage", 0)
+                .setDefaultValue(0)
+                .setTooltip("Damage whenever using the Enderlift (0 to disable)")
+                .setSaveConsumer(newValue -> temp.damage = newValue)
                 .build()
             );
 

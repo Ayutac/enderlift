@@ -14,15 +14,9 @@ import com.google.gson.JsonSyntaxException;
 public class EnderliftConfig {
     private static final File FILE = new File("./config/enderlift.json");
 
-    public Integer range;
-
-    public EnderliftConfig() {
-        this(256);
-    }
-
-    public EnderliftConfig(Integer range) {
-        this.range = range;
-    }
+    public Integer range = 256;
+    public Integer xpCost = 0;
+    public Integer damage = 0;
 
     public static void save(EnderliftConfig cfg) {
         checkFileExistence();
