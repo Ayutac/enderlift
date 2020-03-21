@@ -25,10 +25,10 @@ dependencies {
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
-	modImplementation "io.github.prospector:modmenu:1.10.2+build.32"
-	modCompile "io.github.prospector:modmenu:1.10.2+build.32"
-	modApi "me.shedaniel.cloth:config-2:2.11.2"
-	include "me.shedaniel.cloth:config-2:2.11.2"
+	modImplementation "io.github.prospector:modmenu:${modmenu_version}"
+	modCompile "io.github.prospector:modmenu:${modmenu_version}"
+	modApi "me.shedaniel.cloth:config-2:${cloth_config_version}"
+	include "me.shedaniel.cloth:config-2:${cloth_config_version}"
 }
 
 processResources {
