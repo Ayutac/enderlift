@@ -2,6 +2,8 @@ package com.kqp.enderlift;
 
 import java.util.Random;
 
+import com.kqp.enderlift.event.playeraction.Action;
+
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -27,22 +29,21 @@ public class BlockEnderlift extends Block {
         world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 0.5F, 0.4F / (RANDOM.nextFloat() * 0.4F + 0.8F));
     }
 
-    public ActionResult playerInteract(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
-        BlockPos other = findOthers(world, hitResult.getBlockPos(), Enderlift.config.range * (player.isSneaking() ? -1 : 1));
+    public void playerAction(PlayerEntity player, World world, Action action, boolean newState) {
+        if (action == Action.JUMP || (action == Action.CROUCH && newState == true)) {
+            BlockPos standingBlock = player.getBlockPos().down();
 
-        if (hitResult.getSide() == Direction.UP && other != null) {
-            if (player.getX() > other.getX() && player.getZ() > other.getZ() && player.getX() < other.getX() + 1 && player.getZ() < other.getZ() + 1) {
+            int direction = action == Action.JUMP ? 1 : -1;
+            BlockPos other = findOthers(world, standingBlock, Enderlift.config.range * direction);
+
+            if (other != null) {
                 BlockEnderlift.playNoise(world, player);
-
-                if (!world.isClient) {
-                    player.requestTeleport(player.getX(), other.getY() + 1, player.getZ());
-                }
-
-                return ActionResult.SUCCESS;
+    
+                    if (!world.isClient) {
+                        player.requestTeleport(player.getX(), other.getY() + 1, player.getZ());
+                    }
             }
         }
-
-        return ActionResult.PASS;
     }
 
     private static BlockPos findOthers(World world, BlockPos pos, int range) {

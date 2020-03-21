@@ -1,7 +1,10 @@
 package com.kqp.enderlift;
 
+import com.kqp.enderlift.event.playeraction.PlayerActionEvent;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.event.world.WorldTickCallback;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -22,6 +25,7 @@ public class Enderlift implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier("enderlift", "enderlift"), ENDERLIFT);
 		Registry.register(Registry.ITEM, new Identifier("enderlift", "enderlift"), new BlockItem(ENDERLIFT, new Item.Settings().group(ItemGroup.TRANSPORTATION)));
 
-		UseBlockCallback.EVENT.register(ENDERLIFT::playerInteract);
+		WorldTickCallback.EVENT.register(PlayerActionEvent::onWorldTick);
+		PlayerActionEvent.register(ENDERLIFT::playerAction);
 	}
 }
