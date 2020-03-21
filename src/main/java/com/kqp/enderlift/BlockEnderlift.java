@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class BlockEnderlift extends Block {
@@ -64,6 +65,8 @@ public class BlockEnderlift extends Block {
 
                             player.requestTeleport(player.getX(), other.getY() + 1, player.getZ());
                             BlockEnderlift.playNoise(world, player);
+                            Vec3d vec3d = player.getVelocity();
+                            player.setVelocity(vec3d.x, 0.0D, vec3d.z);
                         }
                     }
                 }
