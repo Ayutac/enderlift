@@ -24,6 +24,7 @@
     ]
   },
   "mixins": [
+    "enderlift.mixins.json"
   ],
 
   "depends": {

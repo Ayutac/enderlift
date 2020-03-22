@@ -27,47 +27,45 @@ public class BlockEnderlift extends Block {
         world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 0.5F, 0.4F / (RANDOM.nextFloat() * 0.4F + 0.8F));
     }
 
-    public void playerAction(PlayerEntity player, World world, Action action, boolean newState) {
-        if (action == Action.JUMP || (action == Action.CROUCH && newState == true)) {
-            BlockPos standingBlock = player.getBlockPos().down();
+    public void playerAction(PlayerEntity player, World world, Action action) {
+        BlockPos standingBlock = player.getBlockPos().down();
 
-            if (world.getBlockState(standingBlock).getBlock() instanceof BlockEnderlift) {
-                int direction = action == Action.JUMP ? 1 : -1;
-                BlockPos other = findOthers(world, standingBlock, Enderlift.config.range * direction);
+        if (world.getBlockState(standingBlock).getBlock() instanceof BlockEnderlift) {
+            int direction = action == Action.JUMP ? 1 : -1;
+            BlockPos other = findOthers(world, standingBlock, Enderlift.config.range * direction);
 
-                if (other != null) {
-                    if (!world.isClient) {
-                        boolean allow = true;
+            if (other != null) {
+                if (!world.isClient) {
+                    boolean allow = true;
 
-                        int redstoneType = Enderlift.config.redstoneType;
-                        boolean on = world.isReceivingRedstonePower(standingBlock);
-                        if (redstoneType == 1) {
-                            allow = on;
-                        } else if (redstoneType == 2) {
-                            allow = !on;
+                    int redstoneType = Enderlift.config.redstoneType;
+                    boolean on = world.isReceivingRedstonePower(standingBlock);
+                    if (redstoneType == 1) {
+                        allow = on;
+                    } else if (redstoneType == 2) {
+                        allow = !on;
+                    }
+
+                    int xpCost = Enderlift.config.xpCost;
+                    if (allow && xpCost != 0) {
+                        if (player.totalExperience >= xpCost) {
+                            allow = true;
+                            player.addExperience(-xpCost);
+                        } else {
+                            allow = false;
+                        }
+                    }
+
+                    if (allow) {
+                        int damage = Enderlift.config.damage;
+                        if (damage != 0) {
+                            player.damage(DamageSource.MAGIC, damage);
                         }
 
-                        int xpCost = Enderlift.config.xpCost;
-                        if (allow && xpCost != 0) {
-                            if (player.totalExperience >= xpCost) {
-                                allow = true;
-                                player.addExperience(-xpCost);
-                            } else {
-                                allow = false;
-                            }
-                        }
-
-                        if (allow) {
-                            int damage = Enderlift.config.damage;
-                            if (damage != 0) {
-                                player.damage(DamageSource.MAGIC, damage);
-                            }
-
-                            player.requestTeleport(player.getX(), other.getY() + 1, player.getZ());
-                            BlockEnderlift.playNoise(world, player);
-                            Vec3d vec3d = player.getVelocity();
-                            player.setVelocity(vec3d.x, 0.0D, vec3d.z);
-                        }
+                        player.requestTeleport(player.getX(), other.getY() + 1, player.getZ());
+                        BlockEnderlift.playNoise(world, player);
+                        Vec3d vec3d = player.getVelocity();
+                        player.setVelocity(vec3d.x, 0.0D, vec3d.z);
                     }
                 }
             }

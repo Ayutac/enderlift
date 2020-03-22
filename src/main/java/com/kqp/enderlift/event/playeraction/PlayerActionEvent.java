@@ -11,35 +11,24 @@ import net.minecraft.world.World;
 
 public class PlayerActionEvent {
     private static final List<PlayerActionCallback> LISTENERS = new ArrayList<PlayerActionCallback>();
- 
-    private static final Map<PlayerEntity, PlayerState> PLAYER_STATES = new HashMap<PlayerEntity, PlayerState>();
 
-    public static void onWorldTick(World world) {
-        if (!world.isClient) {
-            List<ServerPlayerEntity> players = world.getServer().getPlayerManager().getPlayerList();
+    private static Map<PlayerEntity, Boolean> CROUCH_MAP = new HashMap<PlayerEntity, Boolean>();
 
-            for (ServerPlayerEntity player : players) {
-                PlayerState prev = PLAYER_STATES.get(player);
-                PlayerState curr = new PlayerState(player.isSneaking(), player.getVelocity().getY());
+    public static void updatePlayerCrouchState(PlayerEntity player) {
+        Boolean prev = CROUCH_MAP.get(player);
 
-                if (prev != null) {
-                    if (prev.crouching != curr.crouching) {
-                        publishEvent(player, world, Action.CROUCH, curr.crouching);
-                    }
-
-                    if (curr.velY > 0.0D && curr.velY > prev.velY) {
-                        publishEvent(player, world, Action.JUMP, true);
-                    }
-                }
-
-                PLAYER_STATES.put(player, curr);
+        if (prev != null) {
+            if (prev != player.isSneaking() && player.isSneaking()) {
+                publishEvent(player, player.world, Action.CROUCH);
             }
         }
+
+        CROUCH_MAP.put(player, player.isSneaking());
     }
 
-    private static void publishEvent(PlayerEntity player, World world, Action action, boolean newState) {
+    public static void publishEvent(PlayerEntity player, World world, Action action) {
         for (PlayerActionCallback listener : LISTENERS) {
-            listener.interact(player, world, action, newState);
+            listener.interact(player, world, action);
         }
     }
 
