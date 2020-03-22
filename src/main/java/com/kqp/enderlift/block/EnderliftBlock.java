@@ -1,13 +1,15 @@
-package com.kqp.enderlift;
+package com.kqp.enderlift.block;
 
 import java.util.Random;
 
+import com.kqp.enderlift.Enderlift;
 import com.kqp.enderlift.event.playeraction.Action;
 
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
+import net.minecraft.block.MaterialColor;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -16,22 +18,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class BlockEnderlift extends Block {
+public class EnderliftBlock extends Block {
     private static final Random RANDOM = new Random();
 
-    public BlockEnderlift() {
-        super(FabricBlockSettings.of(Material.STONE).strength(15.0F, 1200.0F).build());
+    public EnderliftBlock(MaterialColor color) {
+        super(FabricBlockSettings.of(Material.STONE, color).strength(15.0F, 1200.0F).build());
     }
 
     public static void playNoise(World world, PlayerEntity player) {
         world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 0.5F, 0.4F / (RANDOM.nextFloat() * 0.4F + 0.8F));
     }
 
-    public void playerAction(PlayerEntity player, World world, Action action, boolean newState) {
+    public static void playerAction(PlayerEntity player, World world, Action action, boolean newState) {
         if (action == Action.JUMP || (action == Action.CROUCH && newState == true)) {
             BlockPos standingBlock = player.getBlockPos().down();
 
-            if (world.getBlockState(standingBlock).getBlock() instanceof BlockEnderlift) {
+            if (world.getBlockState(standingBlock).getBlock() instanceof EnderliftBlock) {
                 int direction = action == Action.JUMP ? 1 : -1;
                 BlockPos other = findOthers(world, standingBlock, Enderlift.config.range * direction);
 
@@ -64,7 +66,7 @@ public class BlockEnderlift extends Block {
                             }
 
                             player.requestTeleport(player.getX(), other.getY() + 1, player.getZ());
-                            BlockEnderlift.playNoise(world, player);
+                            EnderliftBlock.playNoise(world, player);
                             Vec3d vec3d = player.getVelocity();
                             player.setVelocity(vec3d.x, 0.0D, vec3d.z);
                         }
@@ -84,7 +86,7 @@ public class BlockEnderlift extends Block {
             BlockPos current = new BlockPos(pos.getX(), i, pos.getZ());
             BlockState bs = world.getBlockState(current);
             
-            if (bs.getBlock() instanceof BlockEnderlift) {
+            if (bs.getBlock() instanceof EnderliftBlock) {
                 foundPos = current;
                 break;
             }
