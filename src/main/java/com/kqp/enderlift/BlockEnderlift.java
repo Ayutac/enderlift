@@ -78,16 +78,32 @@ public class BlockEnderlift extends Block {
         int start = pos.getY() + (range > 0 ? 1 : -1);
         int end = pos.getY() + range;
 
+        boolean woolMatch = Enderlift.config.woolMatch;
+
         for (int i = start; i != end; i += Math.signum(range)) {
             BlockPos current = new BlockPos(pos.getX(), i, pos.getZ());
             BlockState bs = world.getBlockState(current);
             
             if (bs.getBlock() instanceof BlockEnderlift) {
-                foundPos = current;
-                break;
+                if (woolMatch) {
+                    Block b1 = world.getBlockState(current.down()).getBlock();
+                    Block b2 = world.getBlockState(pos.down()).getBlock();
+
+                    if (isWool(b1) && isWool(b2) && b1 == b2) {
+                        foundPos = current;
+                        break;
+                    }
+                } else {
+                    foundPos = current;
+                    break;
+                }
             }
         }
 
         return foundPos;
+    }
+
+    private static boolean isWool(Block b) {
+        return b.getName().asString().toLowerCase().contains("wool");
     }
 }

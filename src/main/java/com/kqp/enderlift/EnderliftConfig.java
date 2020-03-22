@@ -18,6 +18,7 @@ public class EnderliftConfig {
     public Integer xpCost = 0;
     public Integer damage = 0;
     public Integer redstoneType = 0;
+    public Boolean woolMatch = true;
 
     public static void save(EnderliftConfig cfg) {
         checkFileExistence();

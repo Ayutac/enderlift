@@ -5,5 +5,6 @@
     "option.enderlift.range": "Range",
     "option.enderlift.xpCost": "XP Cost",
     "option.enderlift.damage": "Damage",
-    "option.enderlift.redstoneType": "Redstone Type"
+    "option.enderlift.redstoneType": "Redstone Type",
+    "option.enderlift.woolMatch": "Match Wool"
 }
