@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "enderlift",
-  "version": "1.0.1",
+  "version": "1.0.5",
 
   "name": "Enderlift",
   "description": "Adds a block similar to the OpenBlocks elevator",
