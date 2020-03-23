@@ -89,7 +89,7 @@ public class BlockEnderlift extends Block {
                     Block b1 = world.getBlockState(current.down()).getBlock();
                     Block b2 = world.getBlockState(pos.down()).getBlock();
 
-                    if (isWool(b1) && isWool(b2) && b1 == b2) {
+                    if ((isWool(b1) && isWool(b2) && b1 == b2) || (!isWool(b1) || !isWool(b2))) {
                         foundPos = current;
                         break;
                     }
