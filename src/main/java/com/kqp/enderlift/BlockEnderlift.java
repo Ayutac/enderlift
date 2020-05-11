@@ -1,9 +1,6 @@
 package com.kqp.enderlift;
 
-import java.util.Random;
-
 import com.kqp.enderlift.event.playeraction.Action;
-
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -12,9 +9,12 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockEnderlift extends Block {
     private static final Random RANDOM = new Random();
@@ -24,7 +24,7 @@ public class BlockEnderlift extends Block {
     }
 
     public static void playNoise(World world, PlayerEntity player) {
-        world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 0.5F, 0.4F / (RANDOM.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 0.5F, 0.4F / (RANDOM.nextFloat() * 0.4F + 0.8F));
     }
 
     public void playerAction(PlayerEntity player, World world, Action action) {
@@ -83,7 +83,7 @@ public class BlockEnderlift extends Block {
         for (int i = start; i != end; i += Math.signum(range)) {
             BlockPos current = new BlockPos(pos.getX(), i, pos.getZ());
             BlockState bs = world.getBlockState(current);
-            
+
             if (bs.getBlock() instanceof BlockEnderlift) {
                 if (woolMatch) {
                     Block b1 = world.getBlockState(current.down()).getBlock();
@@ -104,6 +104,6 @@ public class BlockEnderlift extends Block {
     }
 
     private static boolean isWool(Block b) {
-        return b.getName().asString().toLowerCase().contains("wool");
+        return BlockTags.WOOL.contains(b);
     }
 }

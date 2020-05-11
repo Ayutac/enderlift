@@ -1,13 +1,12 @@
 package com.kqp.enderlift.event.playeraction;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.World;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
 
 public class PlayerActionEvent {
     private static final List<PlayerActionCallback> LISTENERS = new ArrayList<PlayerActionCallback>();
